@@ -26,6 +26,32 @@ Begin Window WindowBME280
    Title           =   "BME280"
    Visible         =   True
    Width           =   372
+   Begin RoundRectangle RoundRectangle1
+      AutoDeactivate  =   True
+      BorderColor     =   &c66FFFE00
+      BorderWidth     =   1
+      Enabled         =   True
+      FillColor       =   &cCCFFFE00
+      Height          =   93
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Left            =   15
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      OvalHeight      =   16
+      OvalWidth       =   16
+      Scope           =   2
+      TabIndex        =   18
+      TabPanelIndex   =   0
+      Top             =   181
+      Transparent     =   False
+      Visible         =   True
+      Width           =   342
+   End
    Begin Label Label1
       AutoDeactivate  =   True
       Bold            =   False
