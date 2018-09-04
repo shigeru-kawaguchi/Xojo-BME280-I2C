@@ -4,7 +4,7 @@ Builds*
 *.debug
 *.debug.app
 Debug*.exe
-Debug*.gz
+Debug*.tar.gz
 Debug*/Debug*.exe
 Debug*/Debug*\ Libs
 *.rbuistate
