@@ -782,21 +782,6 @@ Inherits RasPi_I2C.I2C
 	#tag Constant, Name = BME280_DATA_ADDR, Type = Double, Dynamic = False, Default = \"&hF7", Scope = Protected
 	#tag EndConstant
 
-	#tag Constant, Name = BME280_E_COMM_FAIL, Type = Double, Dynamic = False, Default = \"-4", Scope = Protected
-	#tag EndConstant
-
-	#tag Constant, Name = BME280_E_DEV_NOT_FOUND, Type = Double, Dynamic = False, Default = \"-2", Scope = Protected
-	#tag EndConstant
-
-	#tag Constant, Name = BME280_E_INVALID_LEN, Type = Double, Dynamic = False, Default = \"-3", Scope = Protected
-	#tag EndConstant
-
-	#tag Constant, Name = BME280_E_NULL_PTR, Type = Double, Dynamic = False, Default = \"-1", Scope = Protected
-	#tag EndConstant
-
-	#tag Constant, Name = BME280_E_SLEEP_MODE_FAIL, Type = Double, Dynamic = False, Default = \"-5", Scope = Protected
-	#tag EndConstant
-
 	#tag Constant, Name = BME280_FILTER_COEFF_16, Type = Double, Dynamic = False, Default = \"&h04", Scope = Public
 	#tag EndConstant
 
@@ -810,12 +795,6 @@ Inherits RasPi_I2C.I2C
 	#tag EndConstant
 
 	#tag Constant, Name = BME280_FILTER_COEFF_OFF, Type = Double, Dynamic = False, Default = \"&h00", Scope = Public
-	#tag EndConstant
-
-	#tag Constant, Name = BME280_HUMIDITY_CALIB_DATA_ADDR, Type = Double, Dynamic = False, Default = \"&hE1", Scope = Protected
-	#tag EndConstant
-
-	#tag Constant, Name = BME280_HUMIDITY_CALIB_DATA_LEN, Type = Double, Dynamic = False, Default = \"7", Scope = Protected
 	#tag EndConstant
 
 	#tag Constant, Name = BME280_HUM_LSB_ADDR, Type = Double, Dynamic = False, Default = \"&hFE", Scope = Protected
@@ -872,9 +851,6 @@ Inherits RasPi_I2C.I2C
 	#tag Constant, Name = BME280_PWR_CTRL_ADDR, Type = Double, Dynamic = False, Default = \"&hF4", Scope = Protected
 	#tag EndConstant
 
-	#tag Constant, Name = BME280_P_T_H_DATA_LEN, Type = Double, Dynamic = False, Default = \"8", Scope = Protected
-	#tag EndConstant
-
 	#tag Constant, Name = BME280_RESET_ADDR, Type = Double, Dynamic = False, Default = \"&hE0", Scope = Protected
 	#tag EndConstant
 
@@ -914,16 +890,7 @@ Inherits RasPi_I2C.I2C
 	#tag Constant, Name = BME280_TEMP_MSB_ADDR, Type = Double, Dynamic = False, Default = \"&hFA", Scope = Protected
 	#tag EndConstant
 
-	#tag Constant, Name = BME280_TEMP_PRESS_CALIB_DATA_ADDR, Type = Double, Dynamic = False, Default = \"&h88", Scope = Protected
-	#tag EndConstant
-
-	#tag Constant, Name = BME280_TEMP_PRESS_CALIB_DATA_LEN, Type = Double, Dynamic = False, Default = \"26", Scope = Protected
-	#tag EndConstant
-
 	#tag Constant, Name = BME280_TEMP_XLSB_ADDR, Type = Double, Dynamic = False, Default = \"&hFC", Scope = Protected
-	#tag EndConstant
-
-	#tag Constant, Name = BME280_W_INVALID_OSR_MACRO, Type = Double, Dynamic = False, Default = \"1", Scope = Protected
 	#tag EndConstant
 
 

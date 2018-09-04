@@ -679,7 +679,7 @@ Begin Window WindowBME280
       Transparent     =   False
       Underline       =   False
       Visible         =   True
-      Width           =   100
+      Width           =   120
    End
 End
 #tag EndWindow
