@@ -6,7 +6,7 @@ It makes use of WiringPi GPIO Interface library for the Raspberry Pi, which deta
 
 I have been developing with Xojo 2018r2 on Mac and testing on Raspberry Pi 3B+ hardware with latest Raspbian OS.
 
-![Demo screenshot](https://github.com/shigeru-kawaguchi/Xojo-BME280-I2C/blob/master/media/screenshot.png)
+![Demo screenshot](https://github.com/shigeru-kawaguchi/Xojo-BME280-I2C/blob/master/media/Screen-Shot.png)
 
 ## Background
 The driver module was developed referencing the [BME280 datasheet PDF](https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BME280_DS002-13.pdf) and [WiringPi I2C Library documentation](http://wiringpi.com/reference/i2c-library/).
