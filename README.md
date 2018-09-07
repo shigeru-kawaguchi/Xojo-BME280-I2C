@@ -30,8 +30,28 @@ Copy the RasPi_I2C module into your project and call the RasPi_I2C.BME280 class 
 
 ![RasPi_I2C module](https://github.com/shigeru-kawaguchi/Xojo-BME280-I2C/blob/master/media/ScreenShot2018-09-06T20.20.36.png)
 
+### Constructor
+
 ```xojo
 Dim sensor As New RasPi_I2C.BME280()
+```
+The I2C address defaults to &h77. If your sensor is at &h76, the I2C address needs to be defined in initialising parameter.
+
+```xojo
+Dim sensor As New RasPi_I2C.BME280(&h76)
+```
+Sensor will be initialised with all sensors enabled, oversampling of 1x for all sensors, IIR filter disabled in Forced Mode.
+
+### Basics
+
+In order to obtain the sensor reading the measureEnvironment method, then readings become available for fetching.
+
+```xojo
+Call sensor.measureEnvironment()
+Double [temperature in ºC] = sensor.getTemperature()
+Double [barometer in hPa] = sensor.getPressure()
+Double [humidity in %RH] = sensor.getHumidity()
+Xojo.Core.Date [timestamp of reading] = sensor.getMeasurementTimestamp()
 ```
 
 ## License Information
