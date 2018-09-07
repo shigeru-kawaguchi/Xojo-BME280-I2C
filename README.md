@@ -48,10 +48,10 @@ In order to obtain the sensor reading the measureEnvironment method, then readin
 
 ```xojo
 Call sensor.measureEnvironment()
-Double [temperature in ºC] = sensor.getTemperature()
-Double [barometer in hPa] = sensor.getPressure()
-Double [humidity in %RH] = sensor.getHumidity()
-Xojo.Core.Date [timestamp of reading] = sensor.getMeasurementTimestamp()
+Double sensor.getTemperature() 'Temperature in ºC
+Double sensor.getPressure() 'Barometer reading in hPa
+Double sensor.getHumidity() 'Humidity in %RH
+Xojo.Core.Date sensor.getMeasurementTimestamp() 'Timestamp of measurements
 ```
 
 ## License Information
