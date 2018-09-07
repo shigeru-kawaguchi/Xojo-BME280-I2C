@@ -25,6 +25,15 @@ This driver provides
 * Filter coefficient setting to be implemented on demo UI.
 * Normal mode implementation.
 
+## Usage
+Copy the RasPi_I2C module into your project and call the RasPi_I2C.BME280 class in your program.
+
+![RasPi_I2C module](https://github.com/shigeru-kawaguchi/Xojo-BME280-I2C/blob/master/media/ScreenShot2018-09-06T20.20.36.png)
+
+```xojo
+Dim sensor As New RasPi_I2C.BME280()
+```
+
 ## License Information
 [https://github.com/shigeru-kawaguchi/Xojo-BME280-I2C/blob/master/LICENSE](https://github.com/shigeru-kawaguchi/Xojo-BME280-I2C/blob/master/LICENSE)
 
