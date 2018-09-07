@@ -73,7 +73,7 @@ BME280\_OVERSAMPLING\_4X | &h03 | 4 x
 BME280\_OVERSAMPLING\_8X | &h04 | 8 x
 BME280\_OVERSAMPLING\_16X | &h05 | 16 x
 
-Setting oversampling parameter for thermometer;
+#### Thermometer
 
 **NOTE**: Since temperature reading is required to execute compensation function, do not set thermometer with &h00 or BME280\_OVERSAMPLING\_NONE.
 
@@ -87,7 +87,7 @@ or
 Boolean sensor.setOversampleTemperature(RasPi_I2C.BME280.BME280_OVERSAMPLING_1X)
 ```
 
-Setting oversampling parameter for barometer;
+#### Barometer
 
 ```xojo
 Boolean sensor.setOversamplePressure(&h04)
@@ -99,7 +99,7 @@ or
 Boolean sensor.setOversamplePressure(RasPi_I2C.BME280.BME280_OVERSAMPLING_8X)
 ```
 
-Setting oversampling parameter for humidimeter;
+#### Humidimeter
 
 ```xojo
 Boolean sensor.setOversampleHumidity(&h03)
