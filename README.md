@@ -75,6 +75,8 @@ BME280\_OVERSAMPLING\_16X | &h05 | 16 x
 
 Setting oversampling parameter for thermometer;
 
+**NOTE**: Since temperature reading is required to execute compensation function, do not set thermometer with &h00 or BME280\_OVERSAMPLING\_NONE.
+
 ```xojo
 Boolean sensor.setOversampleTemperature(&h01)
 ```
