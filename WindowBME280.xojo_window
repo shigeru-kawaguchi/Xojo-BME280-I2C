@@ -659,7 +659,7 @@ Begin Window WindowBME280
       LockLeft        =   True
       LockRight       =   False
       LockTop         =   True
-      Scope           =   0
+      Scope           =   2
       TabIndex        =   8
       TabPanelIndex   =   0
       TabStop         =   True
@@ -713,6 +713,112 @@ End
 #tag WindowCode
 #tag EndWindowCode
 
+#tag Events PopupMenuFilter
+	#tag Event
+		Sub Open()
+		  self.PopupMenuFilter.DeleteAllRows
+		  self.PopupMenuFilter.AddRow("Off")
+		  self.PopupMenuFilter.AddRow("2")
+		  self.PopupMenuFilter.AddRow("4")
+		  self.PopupMenuFilter.AddRow("8")
+		  self.PopupMenuFilter.AddRow("16")
+		  self.PopupMenuFilter.ListIndex = 0
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events PopupMenuOversampleP
+	#tag Event
+		Sub Open()
+		  self.PopupMenuOversampleP.DeleteAllRows
+		  self.PopupMenuOversampleP.AddRow("1x")
+		  self.PopupMenuOversampleP.AddRow("2x")
+		  self.PopupMenuOversampleP.AddRow("4x")
+		  self.PopupMenuOversampleP.AddRow("8x")
+		  self.PopupMenuOversampleP.AddRow("16x")
+		  self.PopupMenuOversampleP.ListIndex = 0
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub Change()
+		  Select Case self.PopupMenuOversampleP.ListIndex
+		  Case 0
+		    Call app.envitonmentMeasures.setOversamplePressure(RasPi_I2C.BME280.BME280_OVERSAMPLING_1X)
+		  Case 1
+		    Call app.envitonmentMeasures.setOversamplePressure(RasPi_I2C.BME280.BME280_OVERSAMPLING_2X)
+		  Case 2
+		    Call app.envitonmentMeasures.setOversamplePressure(RasPi_I2C.BME280.BME280_OVERSAMPLING_4X)
+		  Case 3
+		    Call app.envitonmentMeasures.setOversamplePressure(RasPi_I2C.BME280.BME280_OVERSAMPLING_8X)
+		  Case 4
+		    Call app.envitonmentMeasures.setOversamplePressure(RasPi_I2C.BME280.BME280_OVERSAMPLING_16X)
+		  Case 5
+		    Call app.envitonmentMeasures.setOversamplePressure(RasPi_I2C.BME280.BME280_OVERSAMPLING_NONE)
+		  End Select
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events PopupMenuOversampleH
+	#tag Event
+		Sub Open()
+		  self.PopupMenuOversampleH.DeleteAllRows
+		  self.PopupMenuOversampleH.AddRow("1x")
+		  self.PopupMenuOversampleH.AddRow("2x")
+		  self.PopupMenuOversampleH.AddRow("4x")
+		  self.PopupMenuOversampleH.AddRow("8x")
+		  self.PopupMenuOversampleH.AddRow("16x")
+		  self.PopupMenuOversampleH.ListIndex = 0
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub Change()
+		  Select Case self.PopupMenuOversampleH.ListIndex
+		  Case 0
+		    Call app.envitonmentMeasures.setOversampleHumidity(RasPi_I2C.BME280.BME280_OVERSAMPLING_1X)
+		  Case 1
+		    Call app.envitonmentMeasures.setOversampleHumidity(RasPi_I2C.BME280.BME280_OVERSAMPLING_2X)
+		  Case 2
+		    Call app.envitonmentMeasures.setOversampleHumidity(RasPi_I2C.BME280.BME280_OVERSAMPLING_4X)
+		  Case 3
+		    Call app.envitonmentMeasures.setOversampleHumidity(RasPi_I2C.BME280.BME280_OVERSAMPLING_8X)
+		  Case 4
+		    Call app.envitonmentMeasures.setOversampleHumidity(RasPi_I2C.BME280.BME280_OVERSAMPLING_16X)
+		  Case 5
+		    Call app.envitonmentMeasures.setOversampleHumidity(RasPi_I2C.BME280.BME280_OVERSAMPLING_NONE)
+		  End Select
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events PopupMenuOversampleT
+	#tag Event
+		Sub Open()
+		  self.PopupMenuOversampleT.DeleteAllRows
+		  self.PopupMenuOversampleT.AddRow("1x")
+		  self.PopupMenuOversampleT.AddRow("2x")
+		  self.PopupMenuOversampleT.AddRow("4x")
+		  self.PopupMenuOversampleT.AddRow("8x")
+		  self.PopupMenuOversampleT.AddRow("16x")
+		  self.PopupMenuOversampleT.ListIndex = 0
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub Change()
+		  Select Case self.PopupMenuOversampleT.ListIndex
+		  Case 0
+		    Call app.envitonmentMeasures.setOversampleTemperature(RasPi_I2C.BME280.BME280_OVERSAMPLING_1X)
+		  Case 1
+		    Call app.envitonmentMeasures.setOversampleTemperature(RasPi_I2C.BME280.BME280_OVERSAMPLING_2X)
+		  Case 2
+		    Call app.envitonmentMeasures.setOversampleTemperature(RasPi_I2C.BME280.BME280_OVERSAMPLING_4X)
+		  Case 3
+		    Call app.envitonmentMeasures.setOversampleTemperature(RasPi_I2C.BME280.BME280_OVERSAMPLING_8X)
+		  Case 4
+		    Call app.envitonmentMeasures.setOversampleTemperature(RasPi_I2C.BME280.BME280_OVERSAMPLING_16X)
+		  Case 5
+		    Call app.envitonmentMeasures.setOversampleTemperature(RasPi_I2C.BME280.BME280_OVERSAMPLING_NONE)
+		  End Select
+		End Sub
+	#tag EndEvent
+#tag EndEvents
 #tag Events TimerRepeat
 	#tag Event
 		Sub Action()
@@ -733,6 +839,8 @@ End
 		  self.PopupMenuTimer.AddRow("250 ms")
 		  self.PopupMenuTimer.AddRow("500 ms")
 		  self.PopupMenuTimer.AddRow("1000 ms")
+		  self.PopupMenuTimer.AddRow("2500 ms")
+		  self.PopupMenuTimer.AddRow("5000 ms")
 		  self.PopupMenuTimer.ListIndex = 0
 		End Sub
 	#tag EndEvent
@@ -747,6 +855,10 @@ End
 		    self.TimerRepeat.Period = 500
 		  Case 3
 		    self.TimerRepeat.Period = 1000
+		  Case 4
+		    self.TimerRepeat.Period = 2500
+		  Case 5
+		    self.TimerRepeat.Period = 5000
 		  End Select
 		End Sub
 	#tag EndEvent

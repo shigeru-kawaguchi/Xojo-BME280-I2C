@@ -238,6 +238,120 @@ Inherits RasPi_I2C.I2C
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Function getTmeasure_max() As Integer
+		  Dim rslt As Integer
+		  Dim T_oversample As Integer
+		  Dim P_oversample As Integer
+		  Dim H_oversample As Integer
+		  
+		  Select Case Bitwise.ShiftRight(self.osrs_T, 5)
+		  Case self.BME280_OVERSAMPLING_1X
+		    T_oversample = 1
+		  Case self.BME280_OVERSAMPLING_2X
+		    T_oversample = 2
+		  Case self.BME280_OVERSAMPLING_4X
+		    T_oversample = 4
+		  Case self.BME280_OVERSAMPLING_8X
+		    T_oversample = 8
+		  Case self.BME280_OVERSAMPLING_16X
+		    T_oversample = 16
+		  Case self.BME280_OVERSAMPLING_NONE
+		    T_oversample = 0
+		  End Select
+		  
+		  Select Case Bitwise.ShiftRight(self.osrs_p, 2)
+		  Case self.BME280_OVERSAMPLING_1X
+		    P_oversample = 1
+		  Case self.BME280_OVERSAMPLING_2X
+		    P_oversample = 2
+		  Case self.BME280_OVERSAMPLING_4X
+		    P_oversample = 4
+		  Case self.BME280_OVERSAMPLING_8X
+		    P_oversample = 8
+		  Case self.BME280_OVERSAMPLING_16X
+		    P_oversample = 16
+		  Case self.BME280_OVERSAMPLING_NONE
+		    P_oversample = 0
+		  End Select
+		  
+		  Select Case self.osrs_h
+		  Case self.BME280_OVERSAMPLING_1X
+		    H_oversample = 1
+		  Case self.BME280_OVERSAMPLING_2X
+		    H_oversample = 2
+		  Case self.BME280_OVERSAMPLING_4X
+		    H_oversample = 4
+		  Case self.BME280_OVERSAMPLING_8X
+		    H_oversample = 8
+		  Case self.BME280_OVERSAMPLING_16X
+		    H_oversample = 16
+		  Case self.BME280_OVERSAMPLING_NONE
+		    H_oversample = 0
+		  End Select
+		  
+		  rslt = CType(1.25 + (2.3 * T_oversample) + (2.3 * P_oversample + 0.575) + (2.3 * H_oversample + 0.575), Integer)
+		  Return rslt
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function getTmeasure_typ() As Integer
+		  Dim rslt As Integer
+		  Dim T_oversample As Integer
+		  Dim P_oversample As Integer
+		  Dim H_oversample As Integer
+		  
+		  Select Case Bitwise.ShiftRight(self.osrs_T, 5)
+		  Case self.BME280_OVERSAMPLING_1X
+		    T_oversample = 1
+		  Case self.BME280_OVERSAMPLING_2X
+		    T_oversample = 2
+		  Case self.BME280_OVERSAMPLING_4X
+		    T_oversample = 4
+		  Case self.BME280_OVERSAMPLING_8X
+		    T_oversample = 8
+		  Case self.BME280_OVERSAMPLING_16X
+		    T_oversample = 16
+		  Case self.BME280_OVERSAMPLING_NONE
+		    T_oversample = 0
+		  End Select
+		  
+		  Select Case Bitwise.ShiftRight(self.osrs_p, 2)
+		  Case self.BME280_OVERSAMPLING_1X
+		    P_oversample = 1
+		  Case self.BME280_OVERSAMPLING_2X
+		    P_oversample = 2
+		  Case self.BME280_OVERSAMPLING_4X
+		    P_oversample = 4
+		  Case self.BME280_OVERSAMPLING_8X
+		    P_oversample = 8
+		  Case self.BME280_OVERSAMPLING_16X
+		    P_oversample = 16
+		  Case self.BME280_OVERSAMPLING_NONE
+		    P_oversample = 0
+		  End Select
+		  
+		  Select Case self.osrs_h
+		  Case self.BME280_OVERSAMPLING_1X
+		    H_oversample = 1
+		  Case self.BME280_OVERSAMPLING_2X
+		    H_oversample = 2
+		  Case self.BME280_OVERSAMPLING_4X
+		    H_oversample = 4
+		  Case self.BME280_OVERSAMPLING_8X
+		    H_oversample = 8
+		  Case self.BME280_OVERSAMPLING_16X
+		    H_oversample = 16
+		  Case self.BME280_OVERSAMPLING_NONE
+		    H_oversample = 0
+		  End Select
+		  
+		  rslt = CType(1 + (2 * T_oversample) + (2 * P_oversample + 0.5) + (2 * H_oversample + 0.5), Integer)
+		  Return rslt
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Function initializeDevice() As Boolean
 		  Call Super.WriteReg8(self.BME280_RESET_ADDR, self.BME280_RESET_CMD)
 		  Call Super.SleepMilliseconds(10)
@@ -251,45 +365,25 @@ Inherits RasPi_I2C.I2C
 
 	#tag Method, Flags = &h0
 		Function measureEnvironment() As Boolean
+		  Dim tTyp As Integer
+		  Dim tMax As Integer
 		  Dim timestampLocal As Xojo.Core.Date = Xojo.Core.Date.Now
 		  Dim utc As New Xojo.Core.TimeZone(0)
 		  Dim timestampUTC As New Xojo.Core.Date(timestampLocal.SecondsFrom1970, utc)
 		  Call self.updateRegConfig
 		  Call self.updateCtrlHum
 		  Call self.updateCtrlMeas
+		  tTyp = getTmeasure_typ()
+		  tMax = getTmeasure_max()
 		  
-		  Call Super.SleepMilliseconds(10)
+		  Call Super.SleepMilliseconds(tTyp)
 		  If Not(self.checkReady) Then
-		    Call Super.SleepMilliseconds(5)
+		    Call Super.SleepMilliseconds(tMax - tTyp)
 		    If Not(self.checkReady) Then
-		      Call Super.SleepMilliseconds(5)
+		      Call self.initializeDevice
+		      Call Super.SleepMilliseconds(tMax)
 		      If Not(self.checkReady) Then
-		        Call Super.SleepMilliseconds(5)
-		        If Not(self.checkReady) Then
-		          Call Super.SleepMilliseconds(5)
-		          If Not(self.checkReady) Then
-		            Call Super.SleepMilliseconds(10)
-		            If Not(self.checkReady) Then
-		              If Not(self.checkReady) Then
-		                Call Super.SleepMilliseconds(20)
-		                If Not(self.checkReady) Then
-		                  If Not(self.checkReady) Then
-		                    Call Super.SleepMilliseconds(40)
-		                    If Not(self.checkReady) Then
-		                      If Not(self.checkReady) Then
-		                        Call self.initializeDevice
-		                        Call Super.SleepMilliseconds(10)
-		                        If Not(self.checkReady) Then
-		                          MsgBox("Automated device reinitialization failed.")
-		                        End If
-		                      End If
-		                    End If
-		                  End If
-		                End If
-		              End If
-		            End If
-		          End If
-		        End If
+		        MsgBox("Automated device reinitialization failed.")
 		      End If
 		    End If
 		  End If
