@@ -73,7 +73,7 @@ BME280\_OVERSAMPLING\_4X | &h03 | 4 x
 BME280\_OVERSAMPLING\_8X | &h04 | 8 x
 BME280\_OVERSAMPLING\_16X | &h05 | 16 x
 
-Setting oversampling parameter for temperature;
+Setting oversampling parameter for thermometer;
 
 ```xojo
 Boolean sensor.setOversampleTemperature(&h01)
