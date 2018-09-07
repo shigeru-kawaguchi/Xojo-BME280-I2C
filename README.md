@@ -50,7 +50,7 @@ Sensor will be initialised with all sensors enabled, oversampling of 1x for all 
 
 ### Basics
 
-In order to obtain the sensor reading the measureEnvironment method, then readings become available for fetching.
+In order to obtain the sensor readings the measureEnvironment method needs to be called, then readings become available for fetching.
 
 ```xojo
 Call sensor.measureEnvironment()
