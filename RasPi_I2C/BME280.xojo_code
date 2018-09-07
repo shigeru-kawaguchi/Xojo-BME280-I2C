@@ -897,10 +897,10 @@ Inherits RasPi_I2C.I2C
 	#tag Constant, Name = BME280_HUM_MSB_ADDR, Type = Double, Dynamic = False, Default = \"&hFD", Scope = Protected
 	#tag EndConstant
 
-	#tag Constant, Name = BME280_I2C_ADDR_PRIM, Type = Double, Dynamic = False, Default = \"&h76", Scope = Protected
+	#tag Constant, Name = BME280_I2C_ADDR_PRIM, Type = Double, Dynamic = False, Default = \"&h76", Scope = Public
 	#tag EndConstant
 
-	#tag Constant, Name = BME280_I2C_ADDR_SEC, Type = Double, Dynamic = False, Default = \"&h77", Scope = Protected
+	#tag Constant, Name = BME280_I2C_ADDR_SEC, Type = Double, Dynamic = False, Default = \"&h77", Scope = Public
 	#tag EndConstant
 
 	#tag Constant, Name = BME280_MODE_FORCED, Type = Double, Dynamic = False, Default = \"&h01", Scope = Public

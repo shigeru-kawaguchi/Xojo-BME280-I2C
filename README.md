@@ -35,11 +35,17 @@ Copy the RasPi_I2C module into your project and call the RasPi_I2C.BME280 class 
 ```xojo
 Dim sensor As New RasPi_I2C.BME280()
 ```
-The I2C address defaults to &h77. If your sensor is at &h76, the I2C address needs to be defined in initialising parameter.
+The I2C address defaults to &h77 (BME280_I2C_ADDR_SEC). If your sensor is at &h76 (BME280_I2C_ADDR_PRIM), the I2C address needs to be defined in initialising parameter.
 
 ```xojo
 Dim sensor As New RasPi_I2C.BME280(&h76)
 ```
+or
+
+```xojo
+Dim sensor As New RasPi_I2C.BME280(RasPi_I2C.BME280.BME280_I2C_ADDR_PRIM)
+```
+
 Sensor will be initialised with all sensors enabled, oversampling of 1x for all sensors, IIR filter disabled in Forced Mode.
 
 ### Basics
