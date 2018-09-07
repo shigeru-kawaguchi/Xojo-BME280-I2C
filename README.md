@@ -60,6 +60,56 @@ Double sensor.getHumidity() 'Humidity in %RH
 Xojo.Core.Date sensor.getMeasurementTimestamp() 'Timestamp of measurements in UTC
 ```
 
+### Oversampling Parameters
+
+Oversampling parameters can be set by supplying actual UInt8 value or the Public Constants listed below;
+
+Constant | Value | Setting
+-------- | ----- | -------
+BME280\_OVERSAMPLING\_NONE | &h00 | No measurement
+BME280\_OVERSAMPLING\_1X | &h01 | 1 x
+BME280\_OVERSAMPLING\_2X | &h02 | 2 x
+BME280\_OVERSAMPLING\_4X | &h03 | 4 x
+BME280\_OVERSAMPLING\_8X | &h04 | 8 x
+BME280\_OVERSAMPLING\_16X | &h05 | 16 x
+
+Setting oversampling parameter for temperature;
+
+```xojo
+Boolean sensor.setOversampleTemperature(&h01)
+```
+
+or
+
+```xojo
+Boolean sensor.setOversampleTemperature(RasPi_I2C.BME280.BME280_OVERSAMPLING_1X)
+```
+
+Setting oversampling parameter for barometer;
+
+```xojo
+Boolean sensor.setOversamplePressure(&h04)
+```
+
+or
+
+```xojo
+Boolean sensor.setOversamplePressure(RasPi_I2C.BME280.BME280_OVERSAMPLING_8X)
+```
+
+Setting oversampling parameter for humidimeter;
+
+```xojo
+Boolean sensor.setOversampleHumidity(&h03)
+```
+
+or
+
+```xojo
+Boolean sensor.setOversampleHumidity(RasPi_I2C.BME280.BME280_OVERSAMPLING_4X)
+```
+
+
 ## License Information
 [https://github.com/shigeru-kawaguchi/Xojo-BME280-I2C/blob/master/LICENSE](https://github.com/shigeru-kawaguchi/Xojo-BME280-I2C/blob/master/LICENSE)
 
