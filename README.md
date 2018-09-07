@@ -22,7 +22,6 @@ This driver provides
 * Constants in Public scope for configuration parameters.
 
 ## ToDo
-* Filter coefficient setting to be implemented on demo UI.
 * Normal mode implementation.
 
 ## Usage
@@ -111,7 +110,29 @@ or
 ```xojo
 Boolean sensor.setOversampleHumidity(RasPi_I2C.BME280.BME280_OVERSAMPLING_4X)
 ```
+### IIR Filter Coefficient
 
+Filter Coefficient parameter can be set by supplying actual UInt8 value or the Public Constants listed below;
+
+Constant | Value | Setting
+-------- | ----- | -------
+BME280\_FILTER\_COEFF\_OFF | &h00 | No filtering
+BME280\_FILTER\_COEFF\_2 | &h01 | 2
+BME280\_FILTER\_COEFF\_4 | &h02 | 4
+BME280\_FILTER\_COEFF\_8 | &h03 | 8
+BME280\_FILTER\_COEFF\_16 | &h04 | 16
+
+#### Examples:
+
+```xojo
+Boolean sensor.setFilterCoefficient(&h02)
+```
+
+or
+
+```xojo
+Boolean sensor.setFilterCoefficient(RasPi_I2C.BME280.BME280_FILTER_COEFF_8)
+```
 
 ## License Information
 [https://github.com/shigeru-kawaguchi/Xojo-BME280-I2C/blob/master/LICENSE](https://github.com/shigeru-kawaguchi/Xojo-BME280-I2C/blob/master/LICENSE)

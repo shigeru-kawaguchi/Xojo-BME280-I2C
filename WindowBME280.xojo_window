@@ -47,6 +47,7 @@ Begin Window WindowBME280
       Scope           =   2
       TabIndex        =   18
       TabPanelIndex   =   0
+      TabStop         =   True
       Top             =   186
       Transparent     =   False
       Visible         =   True
@@ -633,6 +634,7 @@ Begin Window WindowBME280
       Width           =   220
    End
    Begin Timer TimerRepeat
+      Enabled         =   True
       Index           =   -2147483648
       LockedInPosition=   False
       Mode            =   2
@@ -723,6 +725,22 @@ End
 		  self.PopupMenuFilter.AddRow("8")
 		  self.PopupMenuFilter.AddRow("16")
 		  self.PopupMenuFilter.ListIndex = 0
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub Change()
+		  Select Case self.PopupMenuFilter.ListIndex
+		  Case 0
+		    Call app.envitonmentMeasures.setFilterCoefficient(RasPi_I2C.BME280.BME280_FILTER_COEFF_OFF)
+		  Case 1
+		    Call app.envitonmentMeasures.setFilterCoefficient(RasPi_I2C.BME280.BME280_FILTER_COEFF_2)
+		  Case 2
+		    Call app.envitonmentMeasures.setFilterCoefficient(RasPi_I2C.BME280.BME280_FILTER_COEFF_4)
+		  Case 3
+		    Call app.envitonmentMeasures.setFilterCoefficient(RasPi_I2C.BME280.BME280_FILTER_COEFF_8)
+		  Case 4
+		    Call app.envitonmentMeasures.setFilterCoefficient(RasPi_I2C.BME280.BME280_FILTER_COEFF_16)
+		  End Select
 		End Sub
 	#tag EndEvent
 #tag EndEvents

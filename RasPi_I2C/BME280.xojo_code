@@ -243,6 +243,7 @@ Inherits RasPi_I2C.I2C
 		  Dim T_oversample As Integer
 		  Dim P_oversample As Integer
 		  Dim H_oversample As Integer
+		  Dim FilterCoefficient As Integer
 		  
 		  Select Case Bitwise.ShiftRight(self.osrs_T, 5)
 		  Case self.BME280_OVERSAMPLING_1X
@@ -289,7 +290,20 @@ Inherits RasPi_I2C.I2C
 		    H_oversample = 0
 		  End Select
 		  
-		  rslt = CType(1.25 + (2.3 * T_oversample) + (2.3 * P_oversample + 0.575) + (2.3 * H_oversample + 0.575), Integer)
+		  Select Case Bitwise.ShiftRight(self.filter, 2)
+		  Case self.BME280_FILTER_COEFF_OFF
+		    FilterCoefficient = 1
+		  Case self.BME280_FILTER_COEFF_2
+		    FilterCoefficient = 2
+		  Case self.BME280_FILTER_COEFF_4
+		    FilterCoefficient = 4
+		  Case self.BME280_FILTER_COEFF_8
+		    FilterCoefficient = 8
+		  Case self.BME280_FILTER_COEFF_16
+		    FilterCoefficient = 16
+		  End Select
+		  
+		  rslt = CType(1.25 + (2.3 * T_oversample) + (2.3 * P_oversample + 0.575) + (2.3 * H_oversample + 0.575), Integer) * FilterCoefficient
 		  Return rslt
 		End Function
 	#tag EndMethod
@@ -300,6 +314,7 @@ Inherits RasPi_I2C.I2C
 		  Dim T_oversample As Integer
 		  Dim P_oversample As Integer
 		  Dim H_oversample As Integer
+		  Dim FilterCoefficient As Integer
 		  
 		  Select Case Bitwise.ShiftRight(self.osrs_T, 5)
 		  Case self.BME280_OVERSAMPLING_1X
@@ -346,7 +361,20 @@ Inherits RasPi_I2C.I2C
 		    H_oversample = 0
 		  End Select
 		  
-		  rslt = CType(1 + (2 * T_oversample) + (2 * P_oversample + 0.5) + (2 * H_oversample + 0.5), Integer)
+		  Select Case Bitwise.ShiftRight(self.filter, 2)
+		  Case self.BME280_FILTER_COEFF_OFF
+		    FilterCoefficient = 1
+		  Case self.BME280_FILTER_COEFF_2
+		    FilterCoefficient = 2
+		  Case self.BME280_FILTER_COEFF_4
+		    FilterCoefficient = 4
+		  Case self.BME280_FILTER_COEFF_8
+		    FilterCoefficient = 8
+		  Case self.BME280_FILTER_COEFF_16
+		    FilterCoefficient = 16
+		  End Select
+		  
+		  rslt = CType(1 + (2 * T_oversample) + (2 * P_oversample + 0.5) + (2 * H_oversample + 0.5), Integer) * FilterCoefficient
 		  Return rslt
 		End Function
 	#tag EndMethod
