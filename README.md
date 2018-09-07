@@ -57,7 +57,7 @@ Call sensor.measureEnvironment()
 Double sensor.getTemperature() 'Temperature in ºC
 Double sensor.getPressure() 'Barometer reading in hPa
 Double sensor.getHumidity() 'Humidity in %RH
-Xojo.Core.Date sensor.getMeasurementTimestamp() 'Timestamp of measurements
+Xojo.Core.Date sensor.getMeasurementTimestamp() 'Timestamp of measurements in UTC
 ```
 
 ## License Information
