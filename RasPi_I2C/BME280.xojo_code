@@ -308,8 +308,8 @@ Inherits RasPi_I2C.I2C
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h1
-		Protected Function getTmeasure_typ() As Integer
+	#tag Method, Flags = &h0
+		Function getTmeasure_typ() As Integer
 		  Dim rslt As Integer
 		  Dim T_oversample As Integer
 		  Dim P_oversample As Integer

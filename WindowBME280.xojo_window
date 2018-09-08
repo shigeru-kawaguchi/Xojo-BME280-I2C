@@ -47,7 +47,6 @@ Begin Window WindowBME280
       Scope           =   2
       TabIndex        =   18
       TabPanelIndex   =   0
-      TabStop         =   True
       Top             =   186
       Transparent     =   False
       Visible         =   True
@@ -319,6 +318,85 @@ Begin Window WindowBME280
          Underline       =   False
          Visible         =   True
          Width           =   80
+      End
+      Begin TextField TextFieldTresponse
+         AcceptTabs      =   False
+         Alignment       =   3
+         AutoDeactivate  =   True
+         AutomaticallyCheckSpelling=   False
+         BackColor       =   &cFFFFFF00
+         Bold            =   False
+         Border          =   True
+         CueText         =   ""
+         DataField       =   ""
+         DataSource      =   ""
+         Enabled         =   False
+         Format          =   ""
+         Height          =   30
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "RoundRectangle1"
+         Italic          =   False
+         Left            =   264
+         LimitText       =   0
+         LockBottom      =   False
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   False
+         LockTop         =   True
+         Mask            =   ""
+         Password        =   False
+         ReadOnly        =   True
+         Scope           =   2
+         TabIndex        =   8
+         TabPanelIndex   =   0
+         TabStop         =   True
+         Text            =   ""
+         TextColor       =   &c00000000
+         TextFont        =   "System"
+         TextSize        =   0.0
+         TextUnit        =   0
+         Top             =   253
+         Transparent     =   False
+         Underline       =   False
+         UseFocusRing    =   True
+         Visible         =   True
+         Width           =   80
+      End
+      Begin Label Label10
+         AutoDeactivate  =   True
+         Bold            =   False
+         DataField       =   ""
+         DataSource      =   ""
+         Enabled         =   True
+         Height          =   20
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "RoundRectangle1"
+         Italic          =   False
+         Left            =   224
+         LockBottom      =   False
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   False
+         LockTop         =   True
+         Multiline       =   False
+         Scope           =   2
+         Selectable      =   False
+         TabIndex        =   9
+         TabPanelIndex   =   0
+         TabStop         =   True
+         Text            =   "Tresp"
+         TextAlign       =   0
+         TextColor       =   &c00000000
+         TextFont        =   "System"
+         TextSize        =   0.0
+         TextUnit        =   0
+         Top             =   254
+         Transparent     =   False
+         Underline       =   False
+         Visible         =   True
+         Width           =   47
       End
    End
    Begin Label Label1
@@ -634,11 +712,10 @@ Begin Window WindowBME280
       Width           =   220
    End
    Begin Timer TimerRepeat
-      Enabled         =   True
       Index           =   -2147483648
       LockedInPosition=   False
       Mode            =   2
-      Period          =   100
+      Period          =   1000
       Scope           =   2
       TabPanelIndex   =   0
    End
@@ -729,6 +806,9 @@ End
 	#tag EndEvent
 	#tag Event
 		Sub Change()
+		  ' Just stay in the safe side, increase timer period to one second on change with filter coefficient.
+		  self.PopupMenuTimer.ListIndex = 3
+		  
 		  Select Case self.PopupMenuFilter.ListIndex
 		  Case 0
 		    Call app.envitonmentMeasures.setFilterCoefficient(RasPi_I2C.BME280.BME280_FILTER_COEFF_OFF)
@@ -741,6 +821,8 @@ End
 		  Case 4
 		    Call app.envitonmentMeasures.setFilterCoefficient(RasPi_I2C.BME280.BME280_FILTER_COEFF_16)
 		  End Select
+		  
+		  self.TextFieldTresponse.Text = app.envitonmentMeasures.getTmeasure_typ.ToText + " ms"
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -772,6 +854,8 @@ End
 		  Case 5
 		    Call app.envitonmentMeasures.setOversamplePressure(RasPi_I2C.BME280.BME280_OVERSAMPLING_NONE)
 		  End Select
+		  
+		  self.TextFieldTresponse.Text = app.envitonmentMeasures.getTmeasure_typ.ToText + " ms"
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -803,6 +887,8 @@ End
 		  Case 5
 		    Call app.envitonmentMeasures.setOversampleHumidity(RasPi_I2C.BME280.BME280_OVERSAMPLING_NONE)
 		  End Select
+		  
+		  self.TextFieldTresponse.Text = app.envitonmentMeasures.getTmeasure_typ.ToText + " ms"
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -834,6 +920,8 @@ End
 		  Case 5
 		    Call app.envitonmentMeasures.setOversampleTemperature(RasPi_I2C.BME280.BME280_OVERSAMPLING_NONE)
 		  End Select
+		  
+		  self.TextFieldTresponse.Text = app.envitonmentMeasures.getTmeasure_typ.ToText + " ms"
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -859,25 +947,44 @@ End
 		  self.PopupMenuTimer.AddRow("1000 ms")
 		  self.PopupMenuTimer.AddRow("2500 ms")
 		  self.PopupMenuTimer.AddRow("5000 ms")
-		  self.PopupMenuTimer.ListIndex = 0
+		  self.PopupMenuTimer.ListIndex = 3
 		End Sub
 	#tag EndEvent
 	#tag Event
 		Sub Change()
+		  Dim period As Integer
+		  Dim Tresponse As Integer
+		  
+		  Tresponse = app.envitonmentMeasures.getTmeasure_typ()
+		  
+		  If Tresponse > 2500 And self.PopupMenuTimer.ListIndex <= 4 Then
+		    self.PopupMenuTimer.ListIndex = 5
+		  ElseIf Tresponse > 1000 And self.PopupMenuTimer.ListIndex <=3 Then
+		    self.PopupMenuTimer.ListIndex = 4
+		  ElseIf Tresponse > 500 And self.PopupMenuTimer.ListIndex <=2 Then
+		    self.PopupMenuTimer.ListIndex = 3
+		  ElseIf Tresponse > 250 And self.PopupMenuTimer.ListIndex <= 1 Then
+		    self.PopupMenuTimer.ListIndex = 2
+		  ElseIf Tresponse > 100 And self.PopupMenuTimer.ListIndex <= 0 Then
+		    self.PopupMenuTimer.ListIndex = 1
+		  End If
+		  
 		  Select Case self.PopupMenuTimer.ListIndex
 		  Case 0
-		    self.TimerRepeat.Period = 100
+		    period = 100
 		  Case 1
-		    self.TimerRepeat.Period = 250
+		    period = 250
 		  Case 2
-		    self.TimerRepeat.Period = 500
+		    period = 500
 		  Case 3
-		    self.TimerRepeat.Period = 1000
+		    period = 1000
 		  Case 4
-		    self.TimerRepeat.Period = 2500
+		    period = 2500
 		  Case 5
-		    self.TimerRepeat.Period = 5000
+		    period = 5000
 		  End Select
+		  
+		  self.TimerRepeat.Period = period
 		End Sub
 	#tag EndEvent
 #tag EndEvents
