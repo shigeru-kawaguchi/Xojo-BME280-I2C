@@ -6,7 +6,10 @@ It makes use of WiringPi GPIO Interface library for the Raspberry Pi, which deta
 
 I have been developing with Xojo 2018r2 on Mac and testing on Raspberry Pi 3B+ hardware with latest Raspbian OS.
 
-![Demo screenshot](https://github.com/shigeru-kawaguchi/Xojo-BME280-I2C/blob/master/media/20180907-ScreenShot.png)
+![Demo screenshot](https://github.com/shigeru-kawaguchi/Xojo-BME280-I2C/blob/master/media/ScreenShot2018-09-08T22.16.19.png)
+
+#### Caution
+If you try the timer value too close to the Tmeas, the demo app will crash.
 
 ## Background
 The driver module was developed referencing the [BME280 datasheet PDF](https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BME280_DS002-13.pdf) and [WiringPi I2C Library documentation](http://wiringpi.com/reference/i2c-library/).
@@ -22,7 +25,7 @@ This driver provides
 * Constants in Public scope for configuration parameters.
 
 ## ToDo
-* Normal mode implementation.
+* Normal mode implementation. (Currently WiringPi does not offer burst reading of registers in series, i.e. from &hF7 to &hFE in one query. It is not practical to implement Normal mode.) 
 
 ## Usage
 Copy the RasPi\_I2C module into your project and call the RasPi\_I2C.BME280 class in your program. RasPi\_I2C.BME280 is a subclass of RasPi_I2C.I2C.

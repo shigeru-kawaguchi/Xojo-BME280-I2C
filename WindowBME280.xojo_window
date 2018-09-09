@@ -319,7 +319,7 @@ Begin Window WindowBME280
          Visible         =   True
          Width           =   80
       End
-      Begin TextField TextFieldTresponse
+      Begin TextField TextFieldTmeasure
          AcceptTabs      =   False
          Alignment       =   3
          AutoDeactivate  =   True
@@ -386,7 +386,7 @@ Begin Window WindowBME280
          TabIndex        =   9
          TabPanelIndex   =   0
          TabStop         =   True
-         Text            =   "Tresp"
+         Text            =   "Tmeas"
          TextAlign       =   0
          TextColor       =   &c00000000
          TextFont        =   "System"
@@ -822,7 +822,7 @@ End
 		    Call app.envitonmentMeasures.setFilterCoefficient(RasPi_I2C.BME280.BME280_FILTER_COEFF_16)
 		  End Select
 		  
-		  self.TextFieldTresponse.Text = app.envitonmentMeasures.getTmeasure_typ.ToText + " ms"
+		  self.TextFieldTmeasure.Text = app.envitonmentMeasures.getTmeasure_typ.ToText + " ms"
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -855,7 +855,7 @@ End
 		    Call app.envitonmentMeasures.setOversamplePressure(RasPi_I2C.BME280.BME280_OVERSAMPLING_NONE)
 		  End Select
 		  
-		  self.TextFieldTresponse.Text = app.envitonmentMeasures.getTmeasure_typ.ToText + " ms"
+		  self.TextFieldTmeasure.Text = app.envitonmentMeasures.getTmeasure_typ.ToText + " ms"
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -888,7 +888,7 @@ End
 		    Call app.envitonmentMeasures.setOversampleHumidity(RasPi_I2C.BME280.BME280_OVERSAMPLING_NONE)
 		  End Select
 		  
-		  self.TextFieldTresponse.Text = app.envitonmentMeasures.getTmeasure_typ.ToText + " ms"
+		  self.TextFieldTmeasure.Text = app.envitonmentMeasures.getTmeasure_typ.ToText + " ms"
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -921,7 +921,7 @@ End
 		    Call app.envitonmentMeasures.setOversampleTemperature(RasPi_I2C.BME280.BME280_OVERSAMPLING_NONE)
 		  End Select
 		  
-		  self.TextFieldTresponse.Text = app.envitonmentMeasures.getTmeasure_typ.ToText + " ms"
+		  self.TextFieldTmeasure.Text = app.envitonmentMeasures.getTmeasure_typ.ToText + " ms"
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -941,13 +941,16 @@ End
 	#tag Event
 		Sub Open()
 		  self.PopupMenuTimer.DeleteAllRows
+		  self.PopupMenuTimer.AddRow("10 ms")
+		  self.PopupMenuTimer.AddRow("25 ms")
+		  self.PopupMenuTimer.AddRow("50 ms")
 		  self.PopupMenuTimer.AddRow("100 ms")
 		  self.PopupMenuTimer.AddRow("250 ms")
 		  self.PopupMenuTimer.AddRow("500 ms")
 		  self.PopupMenuTimer.AddRow("1000 ms")
 		  self.PopupMenuTimer.AddRow("2500 ms")
 		  self.PopupMenuTimer.AddRow("5000 ms")
-		  self.PopupMenuTimer.ListIndex = 3
+		  self.PopupMenuTimer.ListIndex = 6
 		End Sub
 	#tag EndEvent
 	#tag Event
@@ -957,30 +960,42 @@ End
 		  
 		  Tresponse = app.envitonmentMeasures.getTmeasure_typ()
 		  
-		  If Tresponse > 2500 And self.PopupMenuTimer.ListIndex <= 4 Then
+		  If Tresponse > 2500 And self.PopupMenuTimer.ListIndex <= 7 Then
+		    self.PopupMenuTimer.ListIndex = 8
+		  ElseIf Tresponse > 1000 And self.PopupMenuTimer.ListIndex <=6 Then
+		    self.PopupMenuTimer.ListIndex = 7
+		  ElseIf Tresponse > 500 And self.PopupMenuTimer.ListIndex <=5 Then
+		    self.PopupMenuTimer.ListIndex = 6
+		  ElseIf Tresponse > 250 And self.PopupMenuTimer.ListIndex <= 4 Then
 		    self.PopupMenuTimer.ListIndex = 5
-		  ElseIf Tresponse > 1000 And self.PopupMenuTimer.ListIndex <=3 Then
+		  ElseIf Tresponse > 100 And self.PopupMenuTimer.ListIndex <= 3 Then
 		    self.PopupMenuTimer.ListIndex = 4
-		  ElseIf Tresponse > 500 And self.PopupMenuTimer.ListIndex <=2 Then
+		  ElseIf Tresponse > 50 And self.PopupMenuTimer.ListIndex <= 2 Then
 		    self.PopupMenuTimer.ListIndex = 3
-		  ElseIf Tresponse > 250 And self.PopupMenuTimer.ListIndex <= 1 Then
+		  ElseIf Tresponse > 25 And self.PopupMenuTimer.ListIndex <= 1 Then
 		    self.PopupMenuTimer.ListIndex = 2
-		  ElseIf Tresponse > 100 And self.PopupMenuTimer.ListIndex <= 0 Then
+		  ElseIf Tresponse > 10 And self.PopupMenuTimer.ListIndex <= 0 Then
 		    self.PopupMenuTimer.ListIndex = 1
 		  End If
 		  
 		  Select Case self.PopupMenuTimer.ListIndex
 		  Case 0
-		    period = 100
+		    period = 10
 		  Case 1
-		    period = 250
+		    period = 25
 		  Case 2
-		    period = 500
+		    period = 50
 		  Case 3
-		    period = 1000
+		    period = 100
 		  Case 4
-		    period = 2500
+		    period = 250
 		  Case 5
+		    period = 500
+		  Case 6
+		    period = 1000
+		  Case 7
+		    period = 2500
+		  Case 8
 		    period = 5000
 		  End Select
 		  
@@ -988,3 +1003,229 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
+#tag ViewBehavior
+	#tag ViewProperty
+		Name="Name"
+		Visible=true
+		Group="ID"
+		Type="String"
+		EditorType="String"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Interfaces"
+		Visible=true
+		Group="ID"
+		Type="String"
+		EditorType="String"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Super"
+		Visible=true
+		Group="ID"
+		Type="String"
+		EditorType="String"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Width"
+		Visible=true
+		Group="Size"
+		InitialValue="600"
+		Type="Integer"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Height"
+		Visible=true
+		Group="Size"
+		InitialValue="400"
+		Type="Integer"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="MinWidth"
+		Visible=true
+		Group="Size"
+		InitialValue="64"
+		Type="Integer"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="MinHeight"
+		Visible=true
+		Group="Size"
+		InitialValue="64"
+		Type="Integer"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="MaxWidth"
+		Visible=true
+		Group="Size"
+		InitialValue="32000"
+		Type="Integer"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="MaxHeight"
+		Visible=true
+		Group="Size"
+		InitialValue="32000"
+		Type="Integer"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Frame"
+		Visible=true
+		Group="Frame"
+		InitialValue="0"
+		Type="Integer"
+		EditorType="Enum"
+		#tag EnumValues
+			"0 - Document"
+			"1 - Movable Modal"
+			"2 - Modal Dialog"
+			"3 - Floating Window"
+			"4 - Plain Box"
+			"5 - Shadowed Box"
+			"6 - Rounded Window"
+			"7 - Global Floating Window"
+			"8 - Sheet Window"
+			"9 - Metal Window"
+			"11 - Modeless Dialog"
+		#tag EndEnumValues
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Title"
+		Visible=true
+		Group="Frame"
+		InitialValue="Untitled"
+		Type="String"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="CloseButton"
+		Visible=true
+		Group="Frame"
+		InitialValue="True"
+		Type="Boolean"
+		EditorType="Boolean"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Resizeable"
+		Visible=true
+		Group="Frame"
+		InitialValue="True"
+		Type="Boolean"
+		EditorType="Boolean"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="MaximizeButton"
+		Visible=true
+		Group="Frame"
+		InitialValue="True"
+		Type="Boolean"
+		EditorType="Boolean"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="MinimizeButton"
+		Visible=true
+		Group="Frame"
+		InitialValue="True"
+		Type="Boolean"
+		EditorType="Boolean"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="FullScreenButton"
+		Visible=true
+		Group="Frame"
+		InitialValue="False"
+		Type="Boolean"
+		EditorType="Boolean"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Composite"
+		Group="OS X (Carbon)"
+		InitialValue="False"
+		Type="Boolean"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="MacProcID"
+		Group="OS X (Carbon)"
+		InitialValue="0"
+		Type="Integer"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="ImplicitInstance"
+		Visible=true
+		Group="Behavior"
+		InitialValue="True"
+		Type="Boolean"
+		EditorType="Boolean"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Placement"
+		Visible=true
+		Group="Behavior"
+		InitialValue="0"
+		Type="Integer"
+		EditorType="Enum"
+		#tag EnumValues
+			"0 - Default"
+			"1 - Parent Window"
+			"2 - Main Screen"
+			"3 - Parent Window Screen"
+			"4 - Stagger"
+		#tag EndEnumValues
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Visible"
+		Visible=true
+		Group="Behavior"
+		InitialValue="True"
+		Type="Boolean"
+		EditorType="Boolean"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="LiveResize"
+		Group="Behavior"
+		InitialValue="True"
+		Type="Boolean"
+		EditorType="Boolean"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="FullScreen"
+		Group="Behavior"
+		InitialValue="False"
+		Type="Boolean"
+		EditorType="Boolean"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="HasBackColor"
+		Visible=true
+		Group="Background"
+		InitialValue="False"
+		Type="Boolean"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="BackColor"
+		Visible=true
+		Group="Background"
+		InitialValue="&hFFFFFF"
+		Type="Color"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Backdrop"
+		Visible=true
+		Group="Background"
+		Type="Picture"
+		EditorType="Picture"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="MenuBar"
+		Visible=true
+		Group="Menus"
+		Type="MenuBar"
+		EditorType="MenuBar"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="MenuBarVisible"
+		Visible=true
+		Group="Deprecated"
+		InitialValue="True"
+		Type="Boolean"
+		EditorType="Boolean"
+	#tag EndViewProperty
+#tag EndViewBehavior

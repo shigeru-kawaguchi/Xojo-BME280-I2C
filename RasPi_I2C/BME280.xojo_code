@@ -237,8 +237,8 @@ Inherits RasPi_I2C.I2C
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h1
-		Protected Function getTmeasure_max() As Integer
+	#tag Method, Flags = &h0
+		Function getTmeasure_max() As Integer
 		  Dim rslt As Integer
 		  Dim T_oversample As Integer
 		  Dim P_oversample As Integer
@@ -296,14 +296,14 @@ Inherits RasPi_I2C.I2C
 		  Case self.BME280_FILTER_COEFF_2
 		    FilterCoefficient = 2
 		  Case self.BME280_FILTER_COEFF_4
-		    FilterCoefficient = 4
+		    FilterCoefficient = 5
 		  Case self.BME280_FILTER_COEFF_8
-		    FilterCoefficient = 8
+		    FilterCoefficient = 11
 		  Case self.BME280_FILTER_COEFF_16
-		    FilterCoefficient = 16
+		    FilterCoefficient = 22
 		  End Select
 		  
-		  rslt = CType(1.25 + (2.3 * T_oversample) + (2.3 * P_oversample + 0.575) + (2.3 * H_oversample + 0.575), Integer) * FilterCoefficient
+		  rslt = (CType(1.25 + (2.3 * T_oversample) + (2.3 * P_oversample + 0.575) + (2.3 * H_oversample + 0.575), Integer) + 1) * FilterCoefficient
 		  Return rslt
 		End Function
 	#tag EndMethod
@@ -367,14 +367,14 @@ Inherits RasPi_I2C.I2C
 		  Case self.BME280_FILTER_COEFF_2
 		    FilterCoefficient = 2
 		  Case self.BME280_FILTER_COEFF_4
-		    FilterCoefficient = 4
+		    FilterCoefficient = 5
 		  Case self.BME280_FILTER_COEFF_8
-		    FilterCoefficient = 8
+		    FilterCoefficient = 11
 		  Case self.BME280_FILTER_COEFF_16
-		    FilterCoefficient = 16
+		    FilterCoefficient = 22
 		  End Select
 		  
-		  rslt = CType(1 + (2 * T_oversample) + (2 * P_oversample + 0.5) + (2 * H_oversample + 0.5), Integer) * FilterCoefficient
+		  rslt = (CType(1 + (2 * T_oversample) + (2 * P_oversample + 0.5) + (2 * H_oversample + 0.5), Integer)+ 1) * FilterCoefficient
 		  Return rslt
 		End Function
 	#tag EndMethod
