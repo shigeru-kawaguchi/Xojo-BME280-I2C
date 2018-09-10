@@ -138,7 +138,7 @@ Boolean sensor.setFilterCoefficient(RasPi_I2C.BME280.BME280_FILTER_COEFF_8)
 ```
 
 ## License Information
-[https://github.com/shigeru-kawaguchi/Xojo-BME280-I2C/blob/master/LICENSE](https://github.com/shigeru-kawaguchi/Xojo-BME280-I2C/blob/master/LICENSE)
+[LICENSE](https://github.com/shigeru-kawaguchi/Xojo-BME280-I2C/blob/master/LICENSE)
 
 ## Author
 Shigeru KAWAGUCHI
