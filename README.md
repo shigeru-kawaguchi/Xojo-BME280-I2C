@@ -4,7 +4,7 @@ Xojo driver module for Bosch Sensortec BME280 temperature, barometer and humidit
 
 It makes use of WiringPi GPIO Interface library for the Raspberry Pi, which details are availble from [here](http://wiringpi.com).
 
-I have been developing with Xojo 2018r2 on Mac and testing on Raspberry Pi 3B+ hardware with latest Raspbian OS.
+I have been developing with Xojo 2018r2 on Mac and testing on Raspberry Pi 3B+ hardware with latest Raspbian OS at the time of submission.
 
 ![Demo screenshot](https://github.com/shigeru-kawaguchi/Xojo-BME280-I2C/blob/master/media/ScreenShot2018-09-08T22.16.19.png)
 
@@ -144,4 +144,4 @@ Boolean sensor.setFilterCoefficient(RasPi_I2C.BME280.BME280_FILTER_COEFF_8)
 Shigeru KAWAGUCHI
 
 ## Change Log
-Initial release: 2018-09-03
+Initial release: 2018-09-08
