@@ -1,6 +1,6 @@
 # Xojo-BME280-I2C
 
-Xojo driver module for Bosch Sensortec BME280 temperature, barometer and humidity sensor.
+Xojo library module for Bosch Sensortec BME280 temperature, barometer and humidity sensor.
 
 It makes use of WiringPi GPIO Interface library for the Raspberry Pi, which details are availble from [here](http://wiringpi.com).
 
@@ -12,10 +12,10 @@ I have been developing with Xojo 2018r2 on Mac and testing on Raspberry Pi 3B+ h
 If you try the timer value too close to the Tmeas, the demo app will crash.
 
 ## Background
-The driver module was developed referencing the [BME280 datasheet PDF](https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BME280_DS002-13.pdf) and [WiringPi I2C Library documentation](http://wiringpi.com/reference/i2c-library/).
+The library module was developed referencing the [BME280 datasheet PDF](https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BME280_DS002-13.pdf) and [WiringPi I2C Library documentation](http://wiringpi.com/reference/i2c-library/).
 
 ## Features
-This driver provides
+This library provides
 
 * Measurement compensation calculation in 32bit integer for Temperature and Humidity.
 * Measurement compensation calculation in 64bit integer for Pressure.

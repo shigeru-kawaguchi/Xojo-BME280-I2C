@@ -100,15 +100,17 @@ Inherits RasPi_I2C.I2C
 		  
 		  If Super.Setup(DeviceAddress) Then
 		    If Super.ReadReg8(self.BME280_CHIP_ID_ADDR) = self.BME280_CHIP_ID Then
-		      Call Super.WriteReg8(self.BME280_RESET_ADDR, self.BME280_RESET_CMD)
-		      Call Super.SleepMilliseconds(20)
-		      Call self.setOversampleTemperature(self.BME280_OVERSAMPLING_1X)
-		      Call self.setOversamplePressure(self.BME280_OVERSAMPLING_1X)
-		      Call self.setOversampleHumidity(self.BME280_OVERSAMPLING_1X)
-		      Call self.setFilterCoefficient(self.BME280_FILTER_COEFF_OFF)
-		      Call self.setInactiveDuration(self.BME280_STANDBY_TIME_500_MS)
-		      Call self.setDeviceMode(self.BME280_MODE_FORCED)
-		      Call self.fetchCalibData
+		      If self.checkReady Then
+		        Call Super.WriteReg8(self.BME280_RESET_ADDR, self.BME280_RESET_CMD)
+		        Call Super.SleepMilliseconds(20)
+		        Call self.setOversampleTemperature(self.BME280_OVERSAMPLING_1X)
+		        Call self.setOversamplePressure(self.BME280_OVERSAMPLING_1X)
+		        Call self.setOversampleHumidity(self.BME280_OVERSAMPLING_1X)
+		        Call self.setFilterCoefficient(self.BME280_FILTER_COEFF_OFF)
+		        Call self.setInactiveDuration(self.BME280_STANDBY_TIME_500_MS)
+		        Call self.setDeviceMode(self.BME280_MODE_FORCED)
+		        Call self.fetchCalibData
+		      End If
 		    End If
 		  End If
 		End Sub
@@ -192,6 +194,11 @@ Inherits RasPi_I2C.I2C
 
 	#tag Method, Flags = &h1
 		Protected Function fetchSensorData() As Integer
+		  ' wait until the device is ready
+		  While Not self.checkReady
+		    Call Super.SleepMilliseconds(1)
+		  Wend
+		  
 		  Dim press_msb As UInt8 = self.ReadReg8(self.BME280_PRESS_MSB_ADDR)
 		  Dim press_lsb As UInt8 = self.ReadReg8(self.BME280_PRESS_LSB_ADDR)
 		  Dim press_xlsb As UInt8 = self.ReadReg8(self.BME280_PRESS_XLSB_ADDR)
@@ -393,17 +400,26 @@ Inherits RasPi_I2C.I2C
 
 	#tag Method, Flags = &h0
 		Function measureEnvironment() As Boolean
+		  ' process Forced Mode measurements
 		  Dim tTyp As Integer
 		  Dim tMax As Integer
-		  Dim timestampLocal As Xojo.Core.Date = Xojo.Core.Date.Now
+		  Dim timestampLocal As Xojo.Core.Date
 		  Dim utc As New Xojo.Core.TimeZone(0)
-		  Dim timestampUTC As New Xojo.Core.Date(timestampLocal.SecondsFrom1970, utc)
+		  
+		  ' wait until the device is ready
+		  While Not self.checkReady
+		    Call Super.SleepMilliseconds(1)
+		  Wend
+		  
+		  ' configure to cause measurements
+		  timestampLocal = Xojo.Core.Date.Now
 		  Call self.updateRegConfig
 		  Call self.updateCtrlHum
 		  Call self.updateCtrlMeas
 		  tTyp = getTmeasure_typ()
 		  tMax = getTmeasure_max()
 		  
+		  ' wait for measurements to complete and result to become ready for reading in
 		  Call Super.SleepMilliseconds(tTyp)
 		  If Not(self.checkReady) Then
 		    Call Super.SleepMilliseconds(tMax - tTyp)
@@ -416,8 +432,11 @@ Inherits RasPi_I2C.I2C
 		    End If
 		  End If
 		  
+		  ' fetch reading results
 		  Call self.fetchSensorData
+		  Dim timestampUTC As New Xojo.Core.Date(timestampLocal.SecondsFrom1970, utc)
 		  self.lastMeasureTimestamp = timestampUTC
+		  
 		  Call self.processReading
 		End Function
 	#tag EndMethod
@@ -629,6 +648,37 @@ Inherits RasPi_I2C.I2C
 		  Call Super.WriteReg8(self.BME280_CONFIG_ADDR, newConfig)
 		End Function
 	#tag EndMethod
+
+
+	#tag Note, Name = ReadMe
+		Xojo driver module for Bosch Sensortec BME280 temperature, barometer and humidity sensor.
+		
+		RasPi\_I2C.BME280 is a subclass of RasPi_I2C.I2C.
+		
+		Refer details at https://github.com/shigeru-kawaguchi/Xojo-BME280-I2C
+		
+		MIT License
+		
+		Copyright (c) 2018 Shigeru KAWAGUCHI
+		
+		Permission is hereby granted, free of charge, to any person obtaining a copy
+		of this software and associated documentation files (the "Software"), to deal
+		in the Software without restriction, including without limitation the rights
+		to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+		copies of the Software, and to permit persons to whom the Software is
+		furnished to do so, subject to the following conditions:
+		
+		The above copyright notice and this permission notice shall be included in all
+		copies or substantial portions of the Software.
+		
+		THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+		IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+		FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+		AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+		LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+		OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+		SOFTWARE.
+	#tag EndNote
 
 
 	#tag Property, Flags = &h1
