@@ -144,4 +144,4 @@ Boolean sensor.setFilterCoefficient(RasPi_I2C.BME280.BME280_FILTER_COEFF_8)
 Shigeru KAWAGUCHI
 
 ## Change Log
-Initial release: 2018-09-08
+Initial submission: 2018-09-03
